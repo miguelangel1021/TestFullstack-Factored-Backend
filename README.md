@@ -4,8 +4,10 @@ To run the project first you need to clone the repo locally and have installed a
 To create an employee, you must execute the following request:
 
 method: POST
+
 URL: http://localhost:5000/employees
-body: {
+
+body (Raw - Json): {
     "name" : "Miguel Angel Cardenas Cardenas",
     "position": "Engineering intern",
     "email": "ma.cardenasc1@example.com",
