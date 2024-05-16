@@ -23,8 +23,6 @@ body: {
 }
 
 The service automatically creates 2 test records to be used by the frontend, the records are the following: 
-email: ma.cardenasc1@example.com
-password: password
 
 email: ma.cardenasc1@example.com
 password: password
