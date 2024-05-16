@@ -24,6 +24,7 @@ class Employee(db.Model):
     email = db.Column(db.String(32), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     phoneNumber = db.Column(db.String(20))
+    department = db.Column(db.String(70))
     skills = db.relationship("Skill", backref = 'employee', lazy= True) 
 
 class SkillSchema(SQLAlchemyAutoSchema):

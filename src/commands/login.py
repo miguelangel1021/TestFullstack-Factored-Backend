@@ -19,6 +19,8 @@ class Login(BaseCommannd):
         if employee is not None:
             if(employee.password != hashlib.sha256(get_password(self.password, employee.email).encode()).hexdigest()):
                 raise NotFound
-            return employee_schema.dump(employee)
+            schema = employee_schema.dump(employee)
+            del schema['password']
+            return schema
         else:
             raise NotFound

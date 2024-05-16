@@ -8,27 +8,30 @@ from ..validations.validations import validate_empty,get_password,valid_email
 employee_schema = EmployeeSchema()
 
 class CreateEmployee(BaseCommannd):
-    def __init__(self, name, position, email, password, phoneNumber, skills):
+    def __init__(self, name, position, email, password, phoneNumber, skills, department):
         self.name = name
         self.position = position
         self.email = email
         self.password = password
         self.phoneNumber = phoneNumber
         self.skills = skills
+        self.department = department
     
     def execute(self):
         if validate_empty(self.name) or validate_empty(self.position) or validate_empty(self.email) or not valid_email(self.email) or validate_empty(self.password) or validate_empty(self.phoneNumber):
             raise ResourcesRequired
         employee = Employee.query.filter(or_(Employee.email == self.email)).first()
         if employee is None:
-            new_employee = Employee(name = self.name, position = self.position, email = self.email, password =hashlib.sha256(get_password(self.password, self.email).encode()).hexdigest(), phoneNumber = self.phoneNumber)
+            new_employee = Employee(name = self.name, position = self.position, email = self.email, password =hashlib.sha256(get_password(self.password, self.email).encode()).hexdigest(), phoneNumber = self.phoneNumber, department = self.department)
             db.session.add(new_employee)
             db.session.commit()
             for skill in self.skills.keys():
                 new_skill = Skill(nameSkill = skill, levelSkill = self.skills[skill], employee_id = new_employee.id)
                 db.session.add(new_skill)
                 db.session.commit()
-            return employee_schema.dump(new_employee)  
+            schema = employee_schema.dump(new_employee)
+            del schema['password']
+            return schema
         else:
             raise ResourcesAlreadyExist      
 

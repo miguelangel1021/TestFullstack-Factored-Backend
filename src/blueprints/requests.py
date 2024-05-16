@@ -15,10 +15,11 @@ def create():
                               json.get("email"), 
                               json.get("password"),
                               json.get("phoneNumber"),
-                              json.get("skills")).execute()
+                              json.get("skills"),
+                              json.get("department")).execute()
     return jsonify(employee)
 
-@request_blueprint.route("/employees/login", methods = ['GET'])
+@request_blueprint.route("/employees/login", methods = ['POST'])
 def login():
     json = request.get_json()
     employee = Login(json.get("email"),
